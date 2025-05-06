@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 import Home from '../Pages/Home'
 import NavbarMenu from '../Components/navbar/Navbar'
 import Footer from '../Components/Footer/Footer'
+import MovieListPage from '../Pages/MovieList'
 
 
 const Approuting = () => {
@@ -12,8 +13,8 @@ const Approuting = () => {
             <NavbarMenu />
             <Routes>
                 <Route path='/' element={<Home />} />
+                <Route path='/movielist' element={<MovieListPage />} />
             </Routes>
-            {/* footer */}
             <Footer />
         </>
     )

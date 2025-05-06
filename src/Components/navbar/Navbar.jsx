@@ -1,6 +1,6 @@
-import "./navbar.css"
+import "./Navbar.css"
 import { useEffect, useState } from 'react';
-// import SearchIcon from '@mui/icons-material/Search';
+
 
 
 
@@ -10,7 +10,6 @@ import { FaGear } from "react-icons/fa6";
 
 import { Navbar, Nav, Container, Offcanvas } from 'react-bootstrap';
 
-// import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link } from "react-router-dom";
 
 const NavbarMenu = () => {
@@ -33,7 +32,7 @@ const NavbarMenu = () => {
     return (
         <>
 
-            <Navbar expand="md" className="navbar text-white bg-black sticky-top py-2 px-4">
+            <Navbar expand="md" className="navbar text-white w-100 h-25 py-2 sticky-top px-4 ">
                 <Container fluid >
                     <Navbar.Brand href="#">
                         <img src={ReelPath} alt="" className="logo" />
@@ -56,7 +55,7 @@ const NavbarMenu = () => {
                         <Offcanvas.Body>
                             <Nav className="links mt-1 me-md-auto d-flex align-md-items-center gap-md-5  gap-4 px-md-2">
                                 <Link to="/" className="link">Home</Link>
-                                <Link to="/" className="link">Movies</Link>
+                                <Link to="/movielist" className="link">Movies</Link>
                                 <Link to="/" className="link">Watch List</Link>
                                 <Link to="/" className="link">New</Link>
                             </Nav>

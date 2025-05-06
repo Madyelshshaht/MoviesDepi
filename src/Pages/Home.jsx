@@ -11,11 +11,10 @@ const Home = () => {
 
     return (
         <div className='home pb-5 bg-black'>
-            {/* <NavbarMenu /> */}
             <Hero />
             {/* <HomeSlider content="News" /> */}
-            {/* <HomeSlider content="Movie" /> */}
-            {/* <HomeSlider content="Series" /> */}
+            <HomeSlider content="Movie" />
+            <HomeSlider content="Series" />
             <HomeSlider content="Upcoming" />
 
 
