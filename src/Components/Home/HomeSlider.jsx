@@ -22,7 +22,7 @@ const HomeSlider = ({ content }) => {
         const fetchData = async () => {
             try {
                 const movieApi = fetch("https://api.themoviedb.org/3/movie/upcoming?api_key=9ce966a2d7e1bd9ab1cef00c8debcb39");
-                const seriesApi = fetch("https://api.themoviedb.org/3/trending/tv?api_key=9ce966a2d7e1bd9ab1cef00c8debcb39");
+                const seriesApi = fetch("https://api.themoviedb.org/3/movie/top_rated?api_key=9ce966a2d7e1bd9ab1cef00c8debcb39");
                 const upcomingApi = fetch("https://api.themoviedb.org/3/movie/upcoming?api_key=9ce966a2d7e1bd9ab1cef00c8debcb39");
 
                 const [movieRes, seriesRes, upcomingRes] = await Promise.all([movieApi, seriesApi, upcomingApi]);

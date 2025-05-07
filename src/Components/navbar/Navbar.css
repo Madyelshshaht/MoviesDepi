@@ -86,8 +86,26 @@
 
 /* Small Menu */
 .offcanvas {
-    height: 450px;
+    /* height: 450px; */
+    height: fit-content;
 }
+
+.navbar .logout{
+    width: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap:5px
+}
+
+.navbar .logout .person{
+    transition: 0.5s ease-in-out;
+}
+
+.navbar .logout:hover .person{
+    transform: translateX(17px);
+}
+
 
 @media screen and (max-width: 750px) {
     .right .profile:hover .options {
@@ -105,4 +123,5 @@
         width: 300px !important;
         height: 450px;
     }
+
 }
