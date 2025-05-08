@@ -7,10 +7,10 @@ import Approuting from './Router/Approuting'
 function App() {
   return (
     <>
-      <Approuting />
+        <Approuting />
     </>
   )
 }
 
-export default App
+export default App;
 

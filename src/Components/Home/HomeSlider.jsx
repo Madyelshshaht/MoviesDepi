@@ -1,40 +1,57 @@
 import { useEffect, useState } from "react";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import { Navigation } from 'swiper/modules';
-import Slider_Com from './Slider_Com';
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+import { Navigation } from "swiper/modules";
+import Slider_Com from "./Slider_Com";
 import "./HomeSlider.css";
 
-import { BiDislike, BiLike } from 'react-icons/bi';
-import { FaPlay, FaPlus } from "react-icons/fa";
+import { BiDislike, BiLike } from "react-icons/bi";
+import { FaPlus } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa6";
+import { FaPlay } from "react-icons/fa6";
 
+// ! Use Cart
+import { useCart } from "react-use-cart";
 
 const HomeSlider = ({ content }) => {
+    const { addItem, items } = useCart();
+
     const [movieData, setMovieData] = useState([]);
-    const [seriesData, setSeriesData] = useState([]);
+    const [topRatedData, settopRatedData] = useState([]);
     const [upcomingData, setUpcomingData] = useState([]);
 
-    console.log(upcomingData)
+    const [disabledButtons, setDisabledButtons] = useState({});
+
+    // console.log(upcomingData)
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const movieApi = fetch("https://api.themoviedb.org/3/movie/upcoming?api_key=9ce966a2d7e1bd9ab1cef00c8debcb39");
-                const seriesApi = fetch("https://api.themoviedb.org/3/movie/top_rated?api_key=9ce966a2d7e1bd9ab1cef00c8debcb39");
-                const upcomingApi = fetch("https://api.themoviedb.org/3/movie/upcoming?api_key=9ce966a2d7e1bd9ab1cef00c8debcb39");
+                const movieApi = fetch(
+                    "https://api.themoviedb.org/3/trending/tv/week?api_key=9ce966a2d7e1bd9ab1cef00c8debcb39"
+                );
+                const topRatedApi = fetch(
+                    "https://api.themoviedb.org/3/movie/top_rated?api_key=9ce966a2d7e1bd9ab1cef00c8debcb39"
+                );
+                const upcomingApi = fetch(
+                    "https://api.themoviedb.org/3/movie/upcoming?api_key=9ce966a2d7e1bd9ab1cef00c8debcb39"
+                );
 
-                const [movieRes, seriesRes, upcomingRes] = await Promise.all([movieApi, seriesApi, upcomingApi]);
+                const [movieRes, topRatedRes, upcomingRes] = await Promise.all([
+                    movieApi,
+                    topRatedApi,
+                    upcomingApi,
+                ]);
 
                 const movieJson = await movieRes.json();
-                const seriesJson = await seriesRes.json();
+                const topRatedJson = await topRatedRes.json();
                 const upcomingJson = await upcomingRes.json();
 
-
-
                 setMovieData(movieJson.results);
-                setSeriesData(seriesJson.results);
+                settopRatedData(topRatedJson.results);
                 setUpcomingData(upcomingJson.results);
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -44,17 +61,21 @@ const HomeSlider = ({ content }) => {
         fetchData();
     }, []);
 
-    // تحديد المحتوى الذي سيتم عرضه حسب الـ "content" المرسل
     const getDataByContent = () => {
-        if (content === "Movie") return movieData;
-        if (content === "Series") return seriesData;
-        if (content === "Upcoming") return upcomingData;
+        if (content === "Movies") return movieData;
+        if (content === "Top Rated") return topRatedData;
+        if (content === "Up coming") return upcomingData;
         return [];
     };
 
+    const handleAddToWatchlist = (item) => {
+        addItem({ ...item, price: 0 });
+        setDisabledButtons((prev) => ({ ...prev, [item.id]: true }));
+    };
+
     return (
-        <div className='HomeSlider mt-5'>
-            <h1 className='text-white fw-bold px-4 py-1 text-uppercase'>{content}</h1>
+        <div className="HomeSlider mt-5">
+            <h1 className="text-white fw-bold px-4 py-1 text-uppercase">{content}</h1>
             <Swiper
                 className="mySwiper text-center"
                 navigation={true}
@@ -81,13 +102,29 @@ const HomeSlider = ({ content }) => {
                 {getDataByContent()?.map((item, index) => (
                     <SwiperSlide key={index}>
                         <div className="img d-flex flex-column px-1 my-2">
-                            <img src={`https://image.tmdb.org/t/p/original${item.poster_path}`} alt="img" />
+                            <img
+                                src={`https://image.tmdb.org/t/p/original${item.poster_path}`}
+                                alt="img"
+                            />
                             <div className="info">
                                 <div className="icons my-2 d-flex text-white align-items-center gap-2">
-                                    <FaPlay size={20} className='border rounded-pill icon' />
-                                    <FaPlus size={20} className='border rounded-pill icon' />
-                                    <BiLike size={21} className='border rounded-pill icon' />
-                                    <BiDislike size={21} className='border rounded-pill icon' />
+                                    <a
+                                        href={`https://www.themoviedb.org/movie/${item.id}`}
+                                        target="_blank"
+                                    >
+                                        <FaPlay
+                                            size={21}
+                                            className="border rounded-pill text-white icon "
+                                        />
+                                    </a>
+                                    <FaRegHeart
+                                        size={20}
+                                        className="border rounded-pill icon"
+                                        onClick={() => handleAddToWatchlist(item)}
+                                        style={{ cursor: disabledButtons[item.id] || items.some(i => i.id === item.id) ? "not-allowed" : "pointer" }}
+                                    />
+                                    <BiLike size={21} className="border rounded-pill icon" />
+                                    <BiDislike size={21} className="border rounded-pill icon" />
                                 </div>
                                 <div className="d-flex ">{item.title}</div>
                                 <div className="itemInfoTop d-flex text-white gap-1 align-items-center">

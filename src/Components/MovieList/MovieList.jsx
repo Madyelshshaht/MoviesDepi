@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import './MovieList.css';
 import MovieCard from './MovieCard';
+import { Container, Row, Col, Button, Form, Spinner, ButtonGroup } from 'react-bootstrap';
+import "./MovieList.css"
 
 const MovieList = ({ movieType }) => {
   const [allMovies, setAllMovies] = useState([]);
@@ -49,12 +50,9 @@ const MovieList = ({ movieType }) => {
         const title = movie.title.toLowerCase();
         const query = searchQuery.toLowerCase();
         const rating = movie.vote_average;
-
         const inSearch = query === '' || title.includes(query);
         const inRatingRange =
-          !ratingRange ||
-          (rating >= ratingRange.min && rating <= ratingRange.max);
-
+          !ratingRange || (rating >= ratingRange.min && rating <= ratingRange.max);
         return inSearch && inRatingRange;
       })
       .sort((a, b) =>
@@ -69,7 +67,6 @@ const MovieList = ({ movieType }) => {
       setRatingRange(null);
       setActiveFilter(null);
     } else {
-      // استخدم رقم عشري بسيط كحد أقصى علشان تتفادى التكرار
       setRatingRange({ min: rating, max: rating + 0.99 });
       setActiveFilter(rating);
     }
@@ -80,89 +77,93 @@ const MovieList = ({ movieType }) => {
 
   const ratingFilters = [8, 7, 6];
 
+  const getHeading = () => {
+    switch (movieType) {
+      case 'topRated':
+        return '🔥 Top Rated Movies';
+      case 'upcoming':
+        return '🚀 Upcoming Movies';
+      default:
+        return '🎬 Popular Movies';
+    }
+  };
+
   return (
-    <section className="movie_list ps-3 pe-2">
+    <Container fluid className="bg-black text-light py-5 min-vh-100 mt-5 overflow-hidden">
+      <h2 className="text-center text-danger display-5 fw-bold mb-4">{getHeading()}</h2>
+
+      <Row className="g-3 align-items-center justify-content-center mb-4 px-3 mt-5">
+        {/* Filters */}
+        <Col xs={12} md={6} lg={3}>
+          <div className="d-flex flex-wrap gap-2 justify-content-center justify-content-md-start">
+            {ratingFilters.map((rating) => (
+              <Button
+                key={rating}
+                variant={activeFilter === rating ? 'danger' : 'outline-light'}
+                className="rounded-pill px-3 fw-semibold"
+                onClick={() => handleFilterClick(rating)}
+              >
+                {rating}+
+              </Button>
+            ))}
+          </div>
+        </Col>
+
+        {/* Sort Order */}
+        <Col xs={12} md={4} lg={3}>
+          <Form.Select
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+            className="select bg-dark text-light border-danger  "
+          >
+            <option value="desc  ">⭐ Highest Rated</option>
+            <option value="asc ">⬇️ Lowest Rated</option>
+          </Form.Select>
+        </Col>
+
+        {/* Search Bar */}
+        <Col xs={12} md={4} lg={3}>
+          <Form.Control
+            type="text"
+            placeholder="🔎 Search by name..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="bg-dark text-light border-secondary rounded-pill px-3 w-100"
+          />
+        </Col>
+      </Row>
+
       {loading ? (
-        <p>Loading...</p>
+        <div className="text-center py-5">
+          <Spinner animation="border" variant="danger" />
+        </div>
       ) : (
         <>
-          <header className="align_center movie_list_header">
-            <h2 className="align_center movie_list_heading">
-              {movieType === 'topRated'
-                ? 'Top Rated'
-                : movieType === 'upcoming'
-                ? 'Upcoming'
-                : 'Popular'}
-            </h2>
-
-            <div className="align_center movie_list_fs">
-              <ul className="align_center movie_filter">
-                {ratingFilters.map((rating) => (
-                  <li
-                    key={rating}
-                    className={`movie_filter_item ${activeFilter === rating ? 'active' : ''}`}
-                    onClick={() => handleFilterClick(rating)}
-                  >
-                    {rating}+ Stars
-                  </li>
-                ))}
-              </ul>
-
-              <select
-                className="movie_sorting"
-                value={sortOrder}
-                onChange={(e) => setSortOrder(e.target.value)}
-              >
-                <option value="desc">Rating Desc</option>
-                <option value="asc">Rating Asc</option>
-              </select>
-
-              <input
-                type="text"
-                className="movie_search_input"
-                placeholder="Search Movies..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                style={{
-                  height: '36px',
-                  borderRadius: '6px',
-                  padding: '0 10px',
-                  fontSize: '15px',
-                  marginLeft: '10px',
-                  backgroundColor: '#2a2a2a',
-                  color: '#e50914',
-                  border: '1px solid #444',
-                  outline: 'none',
-                }}
-              />
-            </div>
-          </header>
-
-          <div className="movie_cards">
+          <Row className="g-2 justify-content-center">
             {filteredMovies.length > 0 ? (
               filteredMovies.slice(0, visibleCount).map((movie) => (
-                <MovieCard key={movie.id} movie={movie} />
+                <Col key={movie.id} sm={6}  md={4} lg={3}>
+                  <MovieCard movie={movie} />
+                </Col>
               ))
             ) : (
-              <p style={{ color: '#e50914', fontSize: '18px', marginTop: '20px' }}>
-                No movies found.
-              </p>
+              <p className="text-danger fs-5 text-center">No movies found matching your criteria.</p>
             )}
-          </div>
+          </Row>
 
           {visibleCount < filteredMovies.length && (
-            <div style={{ textAlign: 'center', margin: '20px' }}>
-              <button onClick={handleSeeMore} className="see_more_button">
-                See More
-              </button>
-              <button onClick={handleSeeLess} className="see_less_button">
-                See Less
-              </button>
+            <div className="text-center my-4">
+              <Button variant="danger" className="me-2 px-4 fw-bold" onClick={handleSeeMore}>
+                Load More
+              </Button>
+              <Button variant="outline-light" className="px-4" onClick={handleSeeLess}>
+                Reset
+              </Button>
             </div>
           )}
         </>
       )}
-    </section>
+    </Container>
   );
 };
 

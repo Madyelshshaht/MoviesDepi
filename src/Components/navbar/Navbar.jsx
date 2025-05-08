@@ -1,7 +1,6 @@
 import "./Navbar.css";
 import { useEffect, useState } from "react";
 
-import Avatar from "../../assets/Images/avatar.png";
 import ReelPath from "../../assets/Images/ReelPath.png";
 import { FaGear } from "react-icons/fa6";
 
@@ -11,8 +10,16 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { BsFillDoorOpenFill } from "react-icons/bs";
 import { PiPersonSimpleRunBold } from "react-icons/pi";
+import { useCart } from "react-use-cart";
 
 const NavbarMenu = () => {
+    const {
+        totalUniqueItems,
+        emptyCart
+    } = useCart();
+
+
+
     const navigate = useNavigate();
 
     const token = localStorage.getItem("token");
@@ -35,17 +42,18 @@ const NavbarMenu = () => {
         localStorage.removeItem("token");
         setIsLoggedIn(false);
         navigate("/login");
+        emptyCart();
     };
 
     return (
         <>
             <Navbar
                 expand="md"
-                className="navbar text-white w-100 h-25 py-2 sticky-top px-4 "
+                className="navbar text-white w-100 h-25 py-2 bg-black sticky-top px-4 "
             >
                 <Container fluid>
                     <Navbar.Brand href="#">
-                        <img src={ReelPath} alt="" className="logo" />
+                        <img src={ReelPath} alt="" className="logo " />
                     </Navbar.Brand>
 
                     <Navbar.Toggle
@@ -66,18 +74,22 @@ const NavbarMenu = () => {
                             </Offcanvas.Title>
                         </Offcanvas.Header>
                         <Offcanvas.Body>
-                            <Nav className="links mt-1 me-md-auto d-flex align-md-items-center gap-md-5  gap-4 px-md-2">
+                            <Nav className="links mt-2 me-md-auto d-flex align-md-items-center gap-md-5  gap-4 px-md-2 pb-1 h-100">
                                 <Link to="/" className="link">
                                     Home
                                 </Link>
                                 <Link to="/movielist" className="link">
                                     Movies
                                 </Link>
-                                <Link to="/" className="link">
-                                    Watch List
-                                </Link>
-                                <Link to="/" className="link">
-                                    New
+                                <Link to="/watchlist" className="link">
+                                    <div className="up position-relative d-flex ">
+                                        <p>Watch List</p>
+                                        {totalUniqueItems > 0 && (
+                                            <span className="counterwatchlist position-absolute bg-danger d-flex">
+                                                {totalUniqueItems}
+                                            </span>
+                                        )}
+                                    </div>
                                 </Link>
                             </Nav>
                             <Nav className="mt-4 mt-md-0">
@@ -91,12 +103,8 @@ const NavbarMenu = () => {
                                     {isLoggedIn && (
                                         <>
                                             <div className="profile">
-                                                <img src={Avatar} alt="" className="avatar" />
-                                                {/* <div className="options">
-                                                    <span>Profile</span>
-                                                    <span>Setting</span>
-                                                    <span>Logout</span>
-                                                </div> */}
+                                                {/* <img src={Avatar} alt="" className="avatar" /> */}
+                                                <img src="https://avatar.iran.liara.run/public" className="avatar" />
                                             </div>
                                             <div
                                                 className="btn btn-outline-danger logout"
@@ -105,7 +113,7 @@ const NavbarMenu = () => {
                                                 <span className="person">
                                                     <PiPersonSimpleRunBold />
                                                 </span>
-        
+
                                                 <span>
                                                     <BsFillDoorOpenFill />
                                                 </span>

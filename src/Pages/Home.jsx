@@ -8,14 +8,15 @@ const Home = () => {
 
 
 
-
+    
     return (
         <div className='home pb-5 bg-black'>
             <Hero />
             {/* <HomeSlider content="News" /> */}
-            <HomeSlider content="Movie" />
-            <HomeSlider content="Series" />
-            <HomeSlider content="Upcoming" />
+
+            <HomeSlider content="Movies" />
+            <HomeSlider content="Top Rated" />
+            <HomeSlider content="Up coming" />
 
 
         </div>
