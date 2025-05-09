@@ -62,7 +62,7 @@
     color: white;
     text-decoration: none;
     display: flex;
-     transition: 0.5s ease-in;
+    transition: 0.5s ease-in;
 }
 
 .links .link:hover {
@@ -89,7 +89,7 @@
 
 /* Small Menu */
 .offcanvas {
-    height: fit-content;
+    height: fit-content !important;
 }
 
 .navbar .logout{
