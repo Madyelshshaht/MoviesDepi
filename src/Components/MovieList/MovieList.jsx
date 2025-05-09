@@ -80,16 +80,16 @@ const MovieList = ({ movieType }) => {
   const getHeading = () => {
     switch (movieType) {
       case 'topRated':
-        return '🔥 Top Rated Movies';
+        return ' Top Rated Movies';
       case 'upcoming':
-        return '🚀 Upcoming Movies';
+        return ' Upcoming Movies';
       default:
-        return '🎬 Popular Movies';
+        return ' Popular Movies';
     }
   };
 
   return (
-    <Container fluid className="bg-black text-light py-5 min-vh-100 bg-danger my-5">
+    <Container fluid className="bg-black text-light py-5 min-vh-100 bg-danger my-5 overflow-hidden">
       <h2 className="text-center text-danger display-5 fw-bold mb-4">{getHeading()}</h2>
 
       <Row className="g-3 align-items-center justify-content-center mb-4 px-3">

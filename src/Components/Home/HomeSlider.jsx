@@ -68,7 +68,6 @@ const HomeSlider = ({ content }) => {
                 settopRatedData(topRatedJson.results);
                 setUpcomingData(upcomingJson.results);
 
-                // Fetch additional details for movies
                 const details = {};
 
                 const allMovies = [

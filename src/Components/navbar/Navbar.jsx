@@ -120,7 +120,7 @@ const NavbarMenu = () => {
                                         <>
                                             <div className="profile">
                                                 {/* <img src={Avatar} alt="" className="avatar" /> */}
-                                                <img src={ avatarUrl ? avatarUrl :  Avatar} className="avatar" />
+                                                <img src={avatarUrl ? avatarUrl : Avatar} className="avatar" />
                                             </div>
                                             <div
                                                 className="btn btn-outline-danger logout"

@@ -10,7 +10,7 @@ const MovieListPage = () => {
 
     return (
         <>
-            <div className="movieslist">
+            <div className="movieslist overflow-hidden">
                 <NavbarMovies setMovieType={setMovieType} />
                 <MovieList movieType={movieType} />
             </div>
