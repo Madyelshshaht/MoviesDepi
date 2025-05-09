@@ -50,7 +50,9 @@ const Hero = () => {
         <>
             {loading ? (
                 <div className="loading text-white d-flex justify-content-center align-items-center ">
-                    <PuffLoader color="#ff0000" />
+                    <div className="load">
+                        <PuffLoader color="#ff0000" />
+                    </div>
                 </div>
             ) : (
                 <Swiper

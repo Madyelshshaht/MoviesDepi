@@ -8,6 +8,7 @@ import Login from "../Components/Login/Login";
 import ProtectRouting from "../Components/protectRouting/ProtectRouting";
 import WatchList from "../Pages/WatchList";
 import { CartProvider } from "react-use-cart";
+import ContactUs from "../Components/ContactUs/ContactUs";
 
 const Approuting = () => {
     const location = useLocation();
@@ -33,6 +34,7 @@ const Approuting = () => {
 
 
                         <Route path="/movielist" element={<MovieListPage />} />
+                        <Route path="/contactus" element={<ContactUs />} />
                         <Route path="/login" element={<Login />} />
                     </Routes>
                 {!hideNavbarFooter && <Footer />}

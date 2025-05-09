@@ -18,7 +18,7 @@
     transform: scale(1.5);
 }
 
-.HomeSlider .img:hover{
+.HomeSlider .img:hover {
     box-shadow: 0px 0px 10px white;
     cursor: pointer;
 }
@@ -39,8 +39,6 @@
 .HomeSlider .img:hover::after {
     opacity: 1;
 }
-
-
 
 
 
@@ -67,12 +65,19 @@
     cursor: pointer;
     padding: 3px;
 }
+
 .HomeSlider .icons .icon:hover {
     background-color: white;
     color: black;
 }
-.HomeSlider .desc{
-    font-size: 10px;
+
+.HomeSlider .icons .icon.active {
+    background-color: rgb(255, 0, 0);
+    color: white;
+    
 }
 
 
+.HomeSlider .desc {
+    font-size: 10px;
+}

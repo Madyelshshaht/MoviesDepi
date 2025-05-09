@@ -51,7 +51,7 @@ const NavbarMenu = () => {
                 expand="md"
                 className="navbar text-white w-100 h-25 py-2 bg-black sticky-top px-4 "
             >
-                <Container fluid>
+                <Container fluid className="d-flex ">
                     <Navbar.Brand href="#">
                         <img src={ReelPath} alt="" className="logo " />
                     </Navbar.Brand>
@@ -66,7 +66,7 @@ const NavbarMenu = () => {
                         id="offcanvasNavbar"
                         aria-labelledby="offcanvasNavbarLabel"
                         placement="end"
-                        className="bg-black text-white"
+                        className="bg-black text-white "
                     >
                         <Offcanvas.Header closeButton closeVariant="white">
                             <Offcanvas.Title id="offcanvasNavbarLabel">
@@ -74,14 +74,14 @@ const NavbarMenu = () => {
                             </Offcanvas.Title>
                         </Offcanvas.Header>
                         <Offcanvas.Body>
-                            <Nav className="links mt-2 me-md-auto d-flex align-md-items-center gap-md-5  gap-4 px-md-2 pb-1 h-100">
+                            <Nav className="links  me-md-auto d-flex align-md-items-center gap-md-5  gap-4 px-md-2 pb-1 h-100">
                                 <Link to="/" className="link">
                                     Home
                                 </Link>
                                 <Link to="/movielist" className="link">
                                     Movies
                                 </Link>
-                                <Link to="/watchlist" className="link">
+                                <Link to="/watchlist" className="link  justify-content-start">
                                     <div className="up position-relative d-flex ">
                                         <p>Watch List</p>
                                         {totalUniqueItems > 0 && (
@@ -91,10 +91,12 @@ const NavbarMenu = () => {
                                         )}
                                     </div>
                                 </Link>
+                                <Link to="/contactus" className="link">
+                                    Contact Us
+                                </Link>
                             </Nav>
                             <Nav className="mt-4 mt-md-0">
                                 <div className="right d-flex flex-md-row flex-column align-items-md-center align-items-start gap-4">
-                                    {/* <SearchIcon className="icon" /> */}
                                     {!isLoggedIn && (
                                         <Link to={"/login"}>
                                             <div className="btn btn-outline-light fw-bold">Login</div>

@@ -55,10 +55,13 @@
     top: 28px;
     left: -20px;
 }
-
+.links{
+    margin-top: 11px;
+}
 .links .link {
     color: white;
     text-decoration: none;
+    display: flex;
 }
 
 .links .link:hover {

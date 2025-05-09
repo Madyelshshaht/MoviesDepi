@@ -5,7 +5,6 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import { Navigation } from "swiper/modules";
-import Slider_Com from "./Slider_Com";
 import "./HomeSlider.css";
 
 import { BiDislike, BiLike } from "react-icons/bi";
@@ -119,9 +118,9 @@ const HomeSlider = ({ content }) => {
                                     </a>
                                     <FaRegHeart
                                         size={20}
-                                        className="border rounded-pill icon"
+                                        className={`border rounded-pill icon ${items.some(i => i.id === item.id) ? "active" : ""}`}
                                         onClick={() => handleAddToWatchlist(item)}
-                                        style={{ cursor: disabledButtons[item.id] || items.some(i => i.id === item.id) ? "not-allowed" : "pointer" }}
+                                        style={{ cursor: disabledButtons[item.id] || items.some(i => i.id === item.id) ? "not-allowed " : "pointer " }}
                                     />
                                     <BiLike size={21} className="border rounded-pill icon" />
                                     <BiDislike size={21} className="border rounded-pill icon" />

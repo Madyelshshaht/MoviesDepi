@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import MovieCard from './MovieCard';
-import { Container, Row, Col, Button, Form, Spinner, ButtonGroup } from 'react-bootstrap';
-import "./MovieList.css"
+import { Container, Row, Col, Button, Form, Spinner } from 'react-bootstrap';
+import './MovieList.css'; 
 
 const MovieList = ({ movieType }) => {
   const [allMovies, setAllMovies] = useState([]);
@@ -89,18 +89,20 @@ const MovieList = ({ movieType }) => {
   };
 
   return (
-    <Container fluid className="bg-black text-light py-5 min-vh-100 mt-5 overflow-hidden">
+    <Container fluid className="bg-black text-light py-5 min-vh-100 bg-danger my-5">
       <h2 className="text-center text-danger display-5 fw-bold mb-4">{getHeading()}</h2>
 
-      <Row className="g-3 align-items-center justify-content-center mb-4 px-3 mt-5">
+      <Row className="g-3 align-items-center justify-content-center mb-4 px-3">
         {/* Filters */}
-        <Col xs={12} md={6} lg={3}>
+        <Col sm={12} md={4}>
           <div className="d-flex flex-wrap gap-2 justify-content-center justify-content-md-start">
             {ratingFilters.map((rating) => (
               <Button
                 key={rating}
                 variant={activeFilter === rating ? 'danger' : 'outline-light'}
-                className="rounded-pill px-3 fw-semibold"
+                className={`rounded-pill px-3 fw-semibold filter-btn ${
+                  activeFilter === rating ? 'active' : ''
+                }`}
                 onClick={() => handleFilterClick(rating)}
               >
                 {rating}+
@@ -110,26 +112,26 @@ const MovieList = ({ movieType }) => {
         </Col>
 
         {/* Sort Order */}
-        <Col xs={12} md={4} lg={3}>
+        <Col xs={12} md={4}>
           <Form.Select
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
-            className="select bg-dark text-light border-danger  "
+            className="bg-dark text-light border-danger fw-semibold w-100"
           >
-            <option value="desc  ">⭐ Highest Rated</option>
-            <option value="asc ">⬇️ Lowest Rated</option>
+            <option value="desc">⭐ Highest Rated</option>
+            <option value="asc">⬇️ Lowest Rated</option>
           </Form.Select>
         </Col>
 
         {/* Search Bar */}
-        <Col xs={12} md={4} lg={3}>
-          <Form.Control
-            type="text"
-            placeholder="🔎 Search by name..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="bg-dark text-light border-secondary rounded-pill px-3 w-100"
-          />
+        <Col xs={12} md={4}>
+        <Form.Control
+          type="text"
+          placeholder="🔎 Search by name..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="bg-dark text-light border-secondary rounded-pill px-3 w-100 search-input"
+        />
         </Col>
       </Row>
 
@@ -139,10 +141,10 @@ const MovieList = ({ movieType }) => {
         </div>
       ) : (
         <>
-          <Row className="g-2 justify-content-center">
+          <Row className="g-4 justify-content-center">
             {filteredMovies.length > 0 ? (
               filteredMovies.slice(0, visibleCount).map((movie) => (
-                <Col key={movie.id} sm={6}  md={4} lg={3}>
+                <Col key={movie.id} xs={12} sm={6} md={4} lg={3}>
                   <MovieCard movie={movie} />
                 </Col>
               ))
