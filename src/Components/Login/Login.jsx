@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "./Login.css";
 import logo from "../../assets/netflix-svgrepo-com(2).svg";
-import { useLocation, useNavigate } from "react-router-dom";
+import { data, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ReelPath from "../../assets/Images/ReelPath.png";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Login = () => {
   const [signState, setSignState] = useState("Sign In");
@@ -31,19 +32,25 @@ const Login = () => {
       setSignState("Sign In");
       if (signState === "Sign In" && response.data.token) {
         localStorage.setItem("token", response.data.token);
-        navigate("/");
+        toast.success(response.data.message)
+        setTimeout(() => {
+          navigate("/");
+        }, 1500);
       }
     } catch (error) {
-      setMessage(
-        error.response?.data.message || "An error occurred. Please try again."
-      );
+      const errorMessage =
+        error.response?.data?.message || "Error no connection with DB ";
+      toast.error(errorMessage);
+      // setMessage(errorMessage);
     }
   };
 
   return (
     <div className="login overflow-hidden">
+      <ToastContainer />
       {/* <img src={logo} className='login-logo' alt='' /> */}
       <img src={ReelPath} alt="" className="login-logo" />
+
       <div className="login-form ">
         <h4>
           {messagestate && (

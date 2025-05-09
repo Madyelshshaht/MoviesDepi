@@ -20,6 +20,8 @@ const NavbarMenu = () => {
 
 
 
+
+
     const navigate = useNavigate();
 
     const token = localStorage.getItem("token");
@@ -45,6 +47,16 @@ const NavbarMenu = () => {
         emptyCart();
     };
 
+    const [avatarUrl, setAvatarUrl] = useState("");
+
+    useEffect(() => {
+        if (token) {
+            const newAvatarUrl = `https://avatar.iran.liara.run/public`;
+            setAvatarUrl(newAvatarUrl);
+        }
+    }, [token]);
+
+
     return (
         <>
             <Navbar
@@ -52,7 +64,7 @@ const NavbarMenu = () => {
                 className="navbar text-white w-100 h-25 py-2 bg-black sticky-top px-4 "
             >
                 <Container fluid className="d-flex ">
-                    <Navbar.Brand href="#">
+                    <Navbar.Brand href="/">
                         <img src={ReelPath} alt="" className="logo " />
                     </Navbar.Brand>
 
@@ -106,7 +118,7 @@ const NavbarMenu = () => {
                                         <>
                                             <div className="profile">
                                                 {/* <img src={Avatar} alt="" className="avatar" /> */}
-                                                <img src="https://avatar.iran.liara.run/public" className="avatar" />
+                                                <img src={avatarUrl} className="avatar" />
                                             </div>
                                             <div
                                                 className="btn btn-outline-danger logout"
