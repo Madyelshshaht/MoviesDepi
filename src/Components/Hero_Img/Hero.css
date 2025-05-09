@@ -57,6 +57,11 @@
 }
 
 
+.star{
+    color: gold;
+}
+
+
 @media screen and (max-width: 1150px) {
     .Hero .title {
         font-size: 70px;

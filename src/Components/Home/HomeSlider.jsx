@@ -11,6 +11,7 @@ import { BiDislike, BiLike } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa6";
 import { FaPlay } from "react-icons/fa6";
+import { FiClock, FiStar } from "react-icons/fi";
 
 // ! Use Cart
 import { useCart } from "react-use-cart";
@@ -21,8 +22,22 @@ const HomeSlider = ({ content }) => {
     const [movieData, setMovieData] = useState([]);
     const [topRatedData, settopRatedData] = useState([]);
     const [upcomingData, setUpcomingData] = useState([]);
+    const [movieDetails, setMovieDetails] = useState({});
 
     const [disabledButtons, setDisabledButtons] = useState({});
+
+    // Function to fetch movie details
+    const fetchMovieDetails = async (movieId) => {
+        try {
+            const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=9ce966a2d7e1bd9ab1cef00c8debcb39`);
+            if (!response.ok) return null;
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error(`Error fetching details for movie ${movieId}:`, error);
+            return null;
+        }
+    };
 
     // console.log(upcomingData)
 
@@ -30,7 +45,7 @@ const HomeSlider = ({ content }) => {
         const fetchData = async () => {
             try {
                 const movieApi = fetch(
-                    "https://api.themoviedb.org/3/trending/tv/week?api_key=9ce966a2d7e1bd9ab1cef00c8debcb39"
+                    "https://api.themoviedb.org/3/movie/now_playing?api_key=9ce966a2d7e1bd9ab1cef00c8debcb39"
                 );
                 const topRatedApi = fetch(
                     "https://api.themoviedb.org/3/movie/top_rated?api_key=9ce966a2d7e1bd9ab1cef00c8debcb39"
@@ -52,12 +67,39 @@ const HomeSlider = ({ content }) => {
                 setMovieData(movieJson.results);
                 settopRatedData(topRatedJson.results);
                 setUpcomingData(upcomingJson.results);
+
+                // Fetch additional details for movies
+                const details = {};
+
+                const allMovies = [
+                    ...movieJson.results,
+                    ...topRatedJson.results,
+                    ...upcomingJson.results
+                ];
+
+
+                const uniqueMovieIds = new Set();
+                allMovies.forEach(movie => uniqueMovieIds.add(movie.id));
+
+                
+                for (const movieId of uniqueMovieIds) {
+                    const movieDetail = await fetchMovieDetails(movieId);
+                    if (movieDetail) {
+                        details[movieId] = {
+                            runtime: movieDetail.runtime,
+                            vote_average: movieDetail.vote_average
+                        };
+                    }
+                }
+
+                setMovieDetails(details);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
 
         fetchData();
+
     }, []);
 
     const getDataByContent = () => {
@@ -126,10 +168,19 @@ const HomeSlider = ({ content }) => {
                                     <BiDislike size={21} className="border rounded-pill icon" />
                                 </div>
                                 <div className="d-flex ">{item.title}</div>
-                                <div className="itemInfoTop d-flex text-white gap-1 align-items-center">
-                                    <span>1 hours 14 mins</span>
-                                    <span> +16 </span>
-                                    <span> 1999 </span>
+                                <div className="itemInfoTop d-flex text-white gap-3 align-items-center my-1">
+                                    {movieDetails[item.id]?.runtime && (
+                                        <div className="d-flex align-items-center">
+                                            <FiClock size={14} className="me-1" />
+                                            <span>{Math.floor(movieDetails[item.id].runtime / 60)}h {movieDetails[item.id].runtime % 60}m</span>
+                                        </div>
+                                    )}
+                                    {movieDetails[item.id]?.vote_average && (
+                                        <div className="d-flex align-items-center">
+                                            <FiStar size={14} className="me-1" />
+                                            <span>{movieDetails[item.id].vote_average.toFixed(1)}</span>
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="desc text-start text-white ">
                                     {item.overview.slice(0, 200)}
@@ -144,3 +195,4 @@ const HomeSlider = ({ content }) => {
 };
 
 export default HomeSlider;
+

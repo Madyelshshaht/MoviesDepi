@@ -12,6 +12,8 @@ import { BsFillDoorOpenFill } from "react-icons/bs";
 import { PiPersonSimpleRunBold } from "react-icons/pi";
 import { useCart } from "react-use-cart";
 
+import Avatar from "../../assets/Images/avatar.png"
+
 const NavbarMenu = () => {
     const {
         totalUniqueItems,
@@ -118,7 +120,7 @@ const NavbarMenu = () => {
                                         <>
                                             <div className="profile">
                                                 {/* <img src={Avatar} alt="" className="avatar" /> */}
-                                                <img src={avatarUrl} className="avatar" />
+                                                <img src={ avatarUrl ? avatarUrl :  Avatar} className="avatar" />
                                             </div>
                                             <div
                                                 className="btn btn-outline-danger logout"
